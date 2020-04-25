@@ -38,6 +38,73 @@ class QuotationController extends Controller
         $modelData = $this->apiCommonProcessHandler->index($request, Quotation::class, $with);
         return $modelData;
     }
+
+    /**
+     * Display a a search of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        // Load model class object
+        $with = [
+            'vendor:id,vendor_name', 
+            'quotation_details'
+        ];
+       $modelData = Quotation::with($with)
+            ->join('vendors', 'quotations.vendor_id', 'vendors.id');
+           
+
+            $where_fileds = explode(',', $request->search_field);     
+
+            foreach ($where_fileds as $key => $field) {
+                if ($key == 0) {
+                    $modelData->where($field, 'LIKE', '%'. $request->search_query .'%');
+                } else {
+                    $modelData->orWhere($field, 'LIKE', '%'. $request->search_query .'%');
+                }
+            }
+
+        // For order by
+        /*if ($request->has('sortByColumn') && $request->has('sortBy')) {
+            $modelData = $modelData->orderBy($request->sortByColumn, $request->sortBy);
+        } else {
+            $modelData = $modelData->latest();
+        }*/
+         $modelData = $modelData->select('quotations.*','vendors.vendor_name');
+        dd($modelData->paginate());
+
+        try {
+            $modelData = $this->getData($modelClassName, $request, $with);
+
+        } catch (Exception $ex) {
+            //otherwise return error
+            return $this->apiResposeHandler->returnResponse(
+                $this->apiResposeHandler->error,
+                '',
+                $ex->getMessage()
+            );
+        }
+        if ($modelData) {
+            //Return faculty object
+            /*return [
+                'status' => $this->apiResposeHandler->success,
+                'message' => '',
+                'content' => $modelData
+            ];*/
+            return $this->apiResposeHandler->returnResponse(
+                $this->apiResposeHandler->success,
+                '',
+                $modelData
+            );
+        } else {
+            //otherwise return error
+            return $this->apiResposeHandler->returnResponse(
+                $this->apiResposeHandler->responseStatus->error,
+                $modelData
+            );
+        }
+    }
     
     /**
      * Store a newly created resource in storage.
@@ -122,7 +189,12 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        $modelData = $this->apiCommonProcessHandler->show($id, Quotation::class);
+        $with = [
+            'vendor:id,vendor_name,address,attention_designation',
+            'quotation_details'
+        ];
+
+        $modelData = $this->apiCommonProcessHandler->show($id, Quotation::class, $with);
         return $modelData;
     }
 

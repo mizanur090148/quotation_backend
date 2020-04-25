@@ -37,7 +37,6 @@ class Quotation extends Model
         'quotation_details'
     ];
 
-
     public function vendor()
     {
     	return $this->belongsTo(Vendor::class)->withDefault([
@@ -52,6 +51,6 @@ class Quotation extends Model
 
     public function getQuotationTotalAttribute()
     {
-        return $this->quotation_details()->sum('amount');
+        return $this->quotation_details()->sum('service_per_year');
     }
 }

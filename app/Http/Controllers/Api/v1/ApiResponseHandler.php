@@ -49,13 +49,20 @@ class ApiResponseHandler
     }*/
 
     public function returnResponse($status = '', $message = '', $arrObject = [])
-    {
-        
+    {        
 
         return [
             'status' => $status,
             'message' => $message,            
             'content' => $arrObject
+        ];
+    }
+
+    public function returnErrorResponse($error_message)
+    {
+        return [
+            $this->error,
+            $error_message
         ];
     }
     

@@ -40,7 +40,6 @@ class ApiCommonProcessHandler
             );
         }
         if ($modelData) {
-            //Return faculty object
             /*return [
                 'status' => $this->apiResposeHandler->success,
                 'message' => '',
@@ -74,7 +73,7 @@ class ApiCommonProcessHandler
         $modelData = new $modelClassName();
 
         // Eager load data
-        if ($with) {
+        if (count($with)) {
             $modelData = $modelData->with($with);
         }
 
@@ -158,13 +157,14 @@ class ApiCommonProcessHandler
      *
      * @return Array
      */
-    public function show($id, $modelClassName)
-    {        
+    public function show($id, $modelClassName, $with = [])
+    {      
         //Load selected model
         try {
-            $modelData = $modelClassName::find($id);         
+            $modelData = $modelClassName::with($with)->find($id);
+           // dd($modelData->quotation_total);          
         } catch (Exception $ex) {
-            //otherwise return error                
+            //otherwise return error
         }
         if ($modelData) {
             //Return faculty object

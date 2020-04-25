@@ -45,8 +45,24 @@ Route::post('vendors', 'VendorController@store');
 Route::get('vendors/{id}', 'VendorController@show');
 Route::delete('vendors/{id}', 'VendorController@destroy');
 
-// factories route
+// quotations route
 Route::get('/quotations', 'QuotationController@index');
 Route::post('quotations', 'QuotationController@store');
 Route::get('quotations/{id}', 'QuotationController@show');
 Route::delete('quotations/{id}', 'QuotationController@destroy');
+Route::get('/search-quotations', 'QuotationController@search');
+
+// services route
+Route::get('/services', 'ServiceController@index');
+Route::post('services', 'ServiceController@store');
+Route::get('services/{id}', 'ServiceController@show');
+Route::delete('services/{id}', 'ServiceController@destroy');
+
+
+// quotations services
+Route::get('/quotation-services', 'QuotationServiceController@index');
+Route::post('quotation-services', 'QuotationServiceController@store');
+Route::get('quotation-services/{id}', 'QuotationServiceController@show');
+Route::delete('quotation-services/{id}', 'QuotationServiceController@destroy');
+Route::get('/search-quotation-services', 'QuotationServiceController@search');
+
