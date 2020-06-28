@@ -29,7 +29,7 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {       
+    {
         try {            
             // Load model class object
             $modelData = Service::with('services')->whereNull('parent_id');

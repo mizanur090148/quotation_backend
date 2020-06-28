@@ -30,7 +30,7 @@ class QuotationServiceController extends Controller
     {       
         try {            
             // Load model class object
-            $modelData = Service::with('services')->whereNull('parent_id');
+            $modelData = new QuotationService();
             $modelData = $modelData->orderBy($request->sortByColumn ?? 'id', $request->sortBy ?? 'desc');
             $modelData = $modelData->paginate();
 

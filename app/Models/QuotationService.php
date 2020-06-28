@@ -25,12 +25,16 @@ class QuotationService extends Model
     ];
 
     public function quotation()
-    {
-    	return $this->belogsTo(Quotation::class, 'quotation_id');
+    {    	
+        return $this->belongsTo(Quotation::class)->withDefault([
+            'vendor_name' => 'N/A'
+        ]);
     }
 
     public function service()
     {
-    	return $this->belogsTo(Service::class, 'service_id');
+    	return $this->belongsTo(Service::class)->withDefault([
+            'name' => 'N/A'
+        ]);
     }
 }
